@@ -2,8 +2,8 @@
   "name": "humble desktop",
   "dockerFile": "Dockerfile",
   "runArgs": [
-    "--privileged"
-    //"--network=host"
+    "--privileged",
+    "--network=host"
   ],
   "workspaceMount": "source=${localWorkspaceFolder},target=/${localWorkspaceFolderBasename},type=bind",
   "workspaceFolder": "/${localWorkspaceFolderBasename}",

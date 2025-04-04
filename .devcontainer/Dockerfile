@@ -72,7 +72,7 @@ RUN mkdir -p /home/ubuntu/.vnc && \
     echo '#!/bin/sh' > /home/ubuntu/.vnc/xstartup && \
     echo 'unset SESSION_MANAGER' >> /home/ubuntu/.vnc/xstartup && \
     echo 'unset DBUS_SESSION_BUS_ADDRESS' >> /home/ubuntu/.vnc/xstartup && \
-    echo 'startxfce4 &' >> /home/ubuntu/.vnc/xstartup && \
+    echo 'exec startxfce4' >> /home/ubuntu/.vnc/xstartup && \
     chmod +x /home/ubuntu/.vnc/xstartup && \
     sudo chown ubuntu:ubuntu /home/ubuntu/.vnc/xstartup
 
