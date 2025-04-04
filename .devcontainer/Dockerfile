@@ -82,3 +82,20 @@ EXPOSE 5901 6080
 # Start VNC server and noVNC on container startup
 CMD vncserver :1 -geometry 1920x1080 -depth 24 && \
     websockify --web=/usr/share/novnc/ 6080 localhost:5901
+
+################################
+## Turtlebot 3 DRL Navigation ##
+################################
+# Install Python and ROS dependencies
+RUN sudo apt install -y python3-pip python3-rosdep python3-colcon-common-extensions
+
+# Install Python dependencies for DRL Navigation
+COPY requirements.txt /tmp/requirements.txt
+RUN pip3 install -r /tmp/requirements.txt && rm /tmp/requirements.txt
+
+# Set up ROS workspace
+WORKDIR /workspace
+RUN echo "source ./install/setup.bash" >> ~/.bashrc
+
+# Clean up
+RUN sudo apt-get clean && sudo rm -rf /var/lib/apt/lists/*
