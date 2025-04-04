@@ -1,9 +1,9 @@
 {
-  "name": "humble desktop-full",
+  "name": "humble desktop",
   "dockerFile": "Dockerfile",
   "runArgs": [
-    "--privileged",
-    "--network=host"
+    "--privileged"
+    //"--network=host"
   ],
   "workspaceMount": "source=${localWorkspaceFolder},target=/${localWorkspaceFolderBasename},type=bind",
   "workspaceFolder": "/${localWorkspaceFolderBasename}",
@@ -20,40 +20,6 @@
     },
     "5901": {
       "label": "Desktop (VNC)"
-    }
-  },
-  "customizations": {
-    "vscode": {
-      "extensions": [
-        "ms-python.python",
-        "ms-vscode.cpptools",
-        "ms-azuretools.vscode-docker",
-        "ms-iot.vscode-ros",
-        "davidanson.vscode-markdownlint",
-        "dotjoshjohnson.xml",
-        "fabiospampinato.vscode-open-in-github",
-        "github.codespaces",
-        "github.copilot",
-        "github.copilot-chat",
-        "github.remotehub",
-        "github.vscode-pull-request-github",
-        "kevinrose.vsc-python-indent",
-        "me-dutour-mathieu.vscode-github-actions",
-        "ms-kubernetes-tools.vscode-kubernetes-tools",
-        "ms-python.debugpy",
-        "ms-python.vscode-pylance",
-        "ms-vscode.azure-repos",
-        "ms-vscode.cmake-tools",
-        "ms-vscode.cpptools-extension-pack",
-        "ms-vscode.cpptools-themes",
-        "ms-vscode.remote-repositories",
-        "redhat.vscode-yaml",
-        "samadamday.markdown-clever-lists",
-        "saoudrizwan.claude-dev",
-        "smilerobotics.urdf",
-        "twxs.cmake",
-        "king2021.vnc-extension"
-      ]
     }
   }
 }

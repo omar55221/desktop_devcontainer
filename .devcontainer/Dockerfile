@@ -1,4 +1,4 @@
-FROM osrf/ros:humble-desktop-full
+FROM osrf/ros:humble-desktop
 
 # Add ubuntu user with same UID and GID as your host system, if it doesn't already exist
 # Since Ubuntu 24.04, a non-root user is created by default with the name vscode and UID=1000
@@ -48,9 +48,24 @@ RUN rosdep update && \
 ## ADD ANY CUSTOM SETUP BELOW ##
 ################################
 
-# Install Ubuntu Desktop (GNOME), XFCE and XFCE goodies
-RUN sudo apt update && \
-    sudo apt install -y ubuntu-desktop xfce4 xfce4-goodies
+# Fix locale setup
+RUN sudo apt-get update && \
+    sudo apt-get install -y locales && \
+    echo "en_US.UTF-8 UTF-8" | sudo tee /etc/locale.gen && \
+    sudo locale-gen && \
+    sudo update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 LANGUAGE=en_US.UTF-8 || true
+
+# Set locale environment variables explicitly
+ENV LANG=en_US.UTF-8
+ENV LANGUAGE=en_US.UTF-8
+ENV LC_ALL=en_US.UTF-8
+
+# Install Ubuntu Desktop (GNOME), XFCE, and XFCE goodies
+RUN sudo apt-get update && \
+    sudo apt-get install -y ubuntu-desktop xfce4 xfce4-goodies
+
+# Install VNC server and noVNC
+RUN sudo apt-get install -y tigervnc-standalone-server tigervnc-common novnc websockify
 
 # Configure VNC to start XFCE by default
 RUN mkdir -p /home/ubuntu/.vnc && \
@@ -58,4 +73,12 @@ RUN mkdir -p /home/ubuntu/.vnc && \
     echo 'unset SESSION_MANAGER' >> /home/ubuntu/.vnc/xstartup && \
     echo 'unset DBUS_SESSION_BUS_ADDRESS' >> /home/ubuntu/.vnc/xstartup && \
     echo 'startxfce4 &' >> /home/ubuntu/.vnc/xstartup && \
-    chmod +x /home/ubuntu/.vnc/xstartup
+    chmod +x /home/ubuntu/.vnc/xstartup && \
+    sudo chown ubuntu:ubuntu /home/ubuntu/.vnc/xstartup
+
+# Expose VNC and noVNC ports
+EXPOSE 5901 6080
+
+# Start VNC server and noVNC on container startup
+CMD vncserver :1 -geometry 1920x1080 -depth 24 && \
+    websockify --web=/usr/share/novnc/ 6080 localhost:5901
