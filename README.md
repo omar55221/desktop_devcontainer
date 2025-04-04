@@ -15,7 +15,7 @@ This repository provides a setup for running an Ubuntu desktop environment with 
 
 2. **Access the Desktop GUI**:
    - Once the devcontainer is built, open the **Ports** tab in VS Code.
-   - Locate the forwarded port for noVNC (default: `6080`).
+   - Locate the forwarded port for noVNC (default).
    - Click the link to open the desktop GUI in your browser.
 
 3. **Start Developing**:
