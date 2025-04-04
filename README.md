@@ -18,11 +18,12 @@ This repository provides a setup for running an Ubuntu desktop environment with 
    - Locate the forwarded port for noVNC (default).
    - Click the link to open the desktop GUI in your browser.
 
-3. **Disable Screen Lock** (Optional):  
-   To prevent the screen from locking and asking for a password, you can disable the lock screen in XFCE:
-   - Open **Settings** in the XFCE desktop.
-   - Navigate to **Power Manager** or **Screensaver** settings.
-   - Disable the screen lock or set the timeout to "Never."
+3. **Set or Reset the Password** (Optional):  
+   If the screen locks and asks for a password, you can set or reset the password for the user (e.g., `ubuntu`) by opening a terminal in the devcontainer and running:
+
+   ```bash
+   sudo passwd ubuntu
+   ```
 
    This will ensure you don't get locked out of the desktop environment.
 
