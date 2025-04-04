@@ -18,7 +18,15 @@ This repository provides a setup for running an Ubuntu desktop environment with 
    - Locate the forwarded port for noVNC (default).
    - Click the link to open the desktop GUI in your browser.
 
-3. **Start Developing**:
+3. **Disable Screen Lock** (Optional):  
+   To prevent the screen from locking and asking for a password, you can disable the lock screen in XFCE:
+   - Open **Settings** in the XFCE desktop.
+   - Navigate to **Power Manager** or **Screensaver** settings.
+   - Disable the screen lock or set the timeout to "Never."
+
+   This will ensure you don't get locked out of the desktop environment.
+
+4. **Start Developing**:
    - Use the terminal in the desktop environment to run ROS 2 commands or launch applications like `rviz2`.
 
 ## Notes
