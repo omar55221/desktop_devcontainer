@@ -5,8 +5,8 @@
     "--privileged",
     "--network=host"
   ],
-  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
-  "workspaceFolder": "/workspace",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/${localWorkspaceFolderBasename},type=bind",
+  "workspaceFolder": "/${localWorkspaceFolderBasename}",
   "mounts": [
     "source=${localEnv:HOME}${localEnv:USERPROFILE}/.bash_history,target=/home/vscode/.bash_history,type=bind"
   ],
@@ -21,6 +21,5 @@
     "5901": {
       "label": "Desktop (VNC)"
     }
-  },
-  "postCreateCommand": "bash -c 'if [ -f /workspace/requirements.txt ]; then pip3 install -r /workspace/requirements.txt; fi && source /opt/ros/humble/setup.bash && rm -rf /workspace/build /workspace/install /workspace/log /workspace/.colcon && colcon build'"
+  }
 }
