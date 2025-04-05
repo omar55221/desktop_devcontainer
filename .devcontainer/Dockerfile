@@ -15,6 +15,34 @@ RUN apt-get update && \
     apt-get install -y sudo && \
     echo "$USERNAME ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME && \
     chmod 0440 /etc/sudoers.d/$USERNAME
+    RUN apt-get update && \
+    apt-get install -y \
+    ros-humble-twist-mux \
+    ros-humble-navigation2 \
+    ros-humble-nav2-bringup \
+    ros-humble-gazebo-ros-pkgs \
+    ros-humble-gazebo-ros2-control \
+    ros-humble-ros2-control \
+    ros-humble-ros2-controllers \
+    ros-humble-joint-state-publisher-gui \
+    ros-humble-slam-toolbox \
+    ros-humble-controller-manager \
+    ros-humble-xacro \
+    ros-humble-gazebo-ros \
+    ros-humble-rplidar-ros \
+    ros-humble-usb-cam \
+    ros-humble-image-transport-plugins \
+    ros-humble-diff-drive-controller \
+    ros-humble-teleop-twist-keyboard \
+    ros-humble-teleop-twist-joy \
+    ros-humble-rqt-image-view \
+    ros-humble-rosbridge-suite \
+    ros-humble-turtlebot3 \
+    joystick \
+    jstest-gtk \
+    evtest \
+    ros-humble-joint-state-broadcaster && \
+    rm -rf /var/lib/apt/lists/*
 
 # Switch from root to user
 USER $USERNAME
