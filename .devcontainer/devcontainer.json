@@ -1,22 +1,17 @@
 {
-  "name": "humble desktop",
+  "name": "Humble Desktop on Hugging Face",
   "dockerFile": "Dockerfile",
-  "runArgs": [
-    "--privileged",
-    "--network=host"
-  ],
+  // "runArgs" and "mounts" have been removed as they are either unsupported
+  // or not applicable in the Hugging Face Spaces environment.
   "workspaceMount": "source=${localWorkspaceFolder},target=/${localWorkspaceFolderBasename},type=bind",
   "workspaceFolder": "/${localWorkspaceFolderBasename}",
-  "mounts": [
-    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.bash_history,target=/home/vscode/.bash_history,type=bind"
-  ],
-  "features": {
-    "ghcr.io/devcontainers/features/desktop-lite": {}
-  },
+  // The "features" block for desktop-lite has been removed to avoid
+  // conflicts with the manual desktop setup in your Dockerfile.
   "forwardPorts": [6080, 5901],
   "portsAttributes": {
     "6080": {
-      "label": "Desktop (Web)"
+      "label": "Graphical Desktop (Web)",
+      "onAutoForward": "openBrowser"
     },
     "5901": {
       "label": "Desktop (VNC)"
