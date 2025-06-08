@@ -1,0 +1,41 @@
+{
+    "name": "ROS 2 Humble Desktop - Hugging Face",
+    "build": {
+        "dockerfile": "Dockerfile",
+        "context": ".."
+    },
+    "features": {},
+    "forwardPorts": [6080, 5901, 7860],
+    "portsAttributes": {
+        "6080": {
+            "label": "noVNC Desktop",
+            "onAutoForward": "openBrowser"
+        },
+        "5901": {
+            "label": "VNC Server"
+        },
+        "7860": {
+            "label": "Gradio App"
+        }
+    },
+    "postCreateCommand": "chmod +x start_desktop.sh fix_icons.sh",
+    "remoteUser": "ubuntu",
+    "runArgs": ["--privileged"],
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "davidanson.vscode-markdownlint",
+                "dotjoshjohnson.xml",
+                "ms-iot.vscode-ros",
+                "ms-python.debugpy",
+                "ms-python.python",
+                "ms-python.vscode-pylance",
+                "ms-vscode.cmake-tools",
+                "ms-vscode.cpptools",
+                "redhat.vscode-yaml",
+                "smilerobotics.urdf",
+                "twxs.cmake"
+            ]
+        }
+    }
+}

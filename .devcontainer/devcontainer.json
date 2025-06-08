@@ -1,7 +1,7 @@
 {
   "name": "ROS Humble Desktop",
   "dockerFile": "Dockerfile",
-  "forwardPorts": [6080, 5901],
+  "forwardPorts": [6080, 5901, 7860],
   "portsAttributes": {
     "6080": {
       "label": "Graphical Desktop (Web)",
@@ -9,8 +9,13 @@
     },
     "5901": {
       "label": "Desktop (VNC)"
+    },
+    "7860": {
+      "label": "Gradio App"
     }
   },
+  "postCreateCommand": "chmod +x start_desktop.sh fix_icons.sh && pip install -r requirements.txt",
+  "remoteUser": "ubuntu",
   "customizations": {
     "vscode": {
       "extensions": [

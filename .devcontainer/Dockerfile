@@ -39,6 +39,7 @@ RUN apt-get update && \
     ros-humble-turtlebot3 ros-humble-joint-state-broadcaster \
     joystick jstest-gtk evtest \
     xfce4 xfce4-goodies tigervnc-standalone-server tigervnc-common novnc websockify \
+    python3-pip python3-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # --- VNC Setup for Graphical Tools (Gazebo, RQT) ---
