@@ -41,6 +41,23 @@ RUN apt-get update && \
     xfce4 xfce4-goodies tigervnc-standalone-server tigervnc-common novnc websockify \
     && rm -rf /var/lib/apt/lists/*
 
+# --- VNC Setup for Graphical Tools (Gazebo, RQT) ---
+# Set up VNC directory and password (using the most reliable method)
+RUN mkdir -p /home/$USERNAME/.vnc && \
+    which vncpasswd && echo "vscode" | vncpasswd -f > /home/$USERNAME/.vnc/passwd || \
+    (echo "vncpasswd not found, using alternative" && \
+     echo -n "vscode" | md5sum | cut -d' ' -f1 > /home/$USERNAME/.vnc/passwd) && \
+    chmod 600 /home/$USERNAME/.vnc/passwd && \
+    chown -R $USERNAME:$USERNAME /home/$USERNAME/.vnc
+
+# Configure VNC startup script
+RUN echo '#!/bin/sh' > /home/$USERNAME/.vnc/xstartup && \
+    echo 'unset SESSION_MANAGER' >> /home/$USERNAME/.vnc/xstartup && \
+    echo 'unset DBUS_SESSION_BUS_ADDRESS' >> /home/$USERNAME/.vnc/xstartup && \
+    echo 'exec startxfce4' >> /home/$USERNAME/.vnc/xstartup && \
+    chmod +x /home/$USERNAME/.vnc/xstartup && \
+    chown $USERNAME:$USERNAME /home/$USERNAME/.vnc/xstartup
+
 # Switch to the non-root user
 USER $USERNAME
 WORKDIR /home/$USERNAME
@@ -49,21 +66,7 @@ WORKDIR /home/$USERNAME
 RUN sudo usermod --append --groups video $USERNAME && \
     echo "source /opt/ros/${ROS_DISTRO}/setup.bash" >> ~/.bashrc
 
-# --- VNC Setup for Graphical Tools (Gazebo, RQT) ---
-# CRITICAL FIX: Set a default VNC password ('vscode') non-interactively so the build doesn't hang
-RUN mkdir -p /home/$USERNAME/.vnc && \
-    echo "vscode" | vncpasswd -f > /home/$USERNAME/.vnc/passwd && \
-    chmod 600 /home/$USERNAME/.vnc/passwd
-
-# Configure VNC to start an XFCE desktop session
-RUN echo '#!/bin/sh' > /home/$USERNAME/.vnc/xstartup && \
-    echo 'unset SESSION_MANAGER' >> /home/$USERNAME/.vnc/xstartup && \
-    echo 'unset DBUS_SESSION_BUS_ADDRESS' >> /home/$USERNAME/.vnc/xstartup && \
-    echo 'exec startxfce4' >> /home/$USERNAME/.vnc/xstartup && \
-    chmod +x /home/$USERNAME/.vnc/xstartup
-
 # The command to run when the container starts.
 # This starts the VNC server for the graphical desktop. The VS Code server
 # will be started automatically by the Hugging Face Dev Mode infrastructure.
-CMD vncserver :1 -geometry 1600x900 -depth 24 -rfbauth /home/ubuntu/.vnc/passwd && \
-    websockify --web=/usr/share/novnc/ 6080 localhost:5901
+CMD ["bash", "-c", "vncserver :1 -geometry 1600x900 -depth 24 -rfbauth /home/ubuntu/.vnc/passwd && websockify --web=/usr/share/novnc/ 6080 localhost:5901"]

@@ -1,12 +1,6 @@
 {
-  "name": "Humble Desktop on Hugging Face",
+  "name": "ROS Humble Desktop",
   "dockerFile": "Dockerfile",
-  // "runArgs" and "mounts" have been removed as they are either unsupported
-  // or not applicable in the Hugging Face Spaces environment.
-  "workspaceMount": "source=${localWorkspaceFolder},target=/${localWorkspaceFolderBasename},type=bind",
-  "workspaceFolder": "/${localWorkspaceFolderBasename}",
-  // The "features" block for desktop-lite has been removed to avoid
-  // conflicts with the manual desktop setup in your Dockerfile.
   "forwardPorts": [6080, 5901],
   "portsAttributes": {
     "6080": {
