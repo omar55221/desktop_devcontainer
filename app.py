@@ -40,36 +40,40 @@ threading.Thread(target=auto_start_desktop, daemon=True).start()
 
 # Create Gradio interface
 with gr.Blocks(title="ROS 2 Desktop Environment") as demo:
-    gr.Markdown("# ROS 2 Humble Desktop Environment")
-    gr.Markdown("Start and manage your ROS 2 desktop environment in Hugging Face Spaces")
+    gr.Markdown("# 🖥️ ROS 2 Humble Desktop Environment")
+    gr.Markdown("**Complete ROS 2 desktop environment running in your browser!**")
     
+    # Main control buttons
     with gr.Row():
-        start_btn = gr.Button("Start Desktop Environment", variant="primary")
-        check_btn = gr.Button("Check Services Status")
+        start_btn = gr.Button("🚀 START DESKTOP", variant="primary", size="lg")
+        check_btn = gr.Button("📊 CHECK STATUS", variant="secondary")
     
-    output = gr.Textbox(label="Output", lines=10)
+    output = gr.Textbox(label="System Output", lines=8, interactive=False)
     
-    start_btn.click(start_desktop, outputs=output)
-    check_btn.click(check_services, outputs=output)
-    
+    # Desktop access section
+    gr.Markdown("## 🖥️ Desktop Access")
     gr.Markdown("""
-    ## Access Methods:
-    - **Desktop**: Click the "6080" port tab above to access the noVNC desktop
-    - **VNC Direct**: Port 5901 for VNC clients
-    - **Terminal**: Right-click on the desktop to open terminal
+    **After clicking START DESKTOP above:**
+    1. Wait for services to initialize (check output above)
+    2. Look for port tabs at the top of this page
+    3. Click the **"6080"** port tab to access your desktop
+    4. If no port tab appears, the service may still be starting
+    """)
     
-    ## Available ROS 2 Tools:
-    - **RViz2**: `rviz2` - 3D visualization tool
-    - **Gazebo**: `gazebo` - Physics simulation
+    # Button actions
+    start_btn.click(start_desktop, outputs=output)
+    check_btn.click(check_services, outputs=output)    
+    gr.Markdown("""
+    ## 🛠️ Available Tools Once Desktop Loads:
+    - **RViz2**: `rviz2` - 3D visualization
+    - **Gazebo**: `gazebo` - Physics simulation  
     - **RQT**: `rqt` - GUI tools for ROS
-    - **Navigation2**: Pre-installed navigation stack
-    - **TurtleBot3**: Example robot packages
+    - **Terminal**: Right-click desktop → Open Terminal
     
-    ## Getting Started:
-    1. Click "Start Desktop Environment" button above
-    2. Wait for services to start
-    3. Click the "6080" port tab to access desktop
-    4. Open terminal and run: `rviz2` or `gazebo`
+    ## 💡 Troubleshooting:
+    - **No desktop?** → Click START DESKTOP, wait 30-60 seconds, look for port 6080 tab
+    - **Services not running?** → Click CHECK STATUS to verify
+    - **Need terminal?** → Right-click on desktop after accessing port 6080
     """)
 
 if __name__ == "__main__":
