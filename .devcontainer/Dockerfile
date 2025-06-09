@@ -39,16 +39,13 @@ RUN apt-get update && \
     ros-humble-turtlebot3 ros-humble-joint-state-broadcaster \
     joystick jstest-gtk evtest \
     xfce4 xfce4-goodies tigervnc-standalone-server tigervnc-common novnc websockify \
+    dbus-x11 dbus adwaita-icon-theme humanity-icon-theme gnome-icon-theme hicolor-icon-theme dos2unix \
     python3-pip python3-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # --- VNC Setup for Graphical Tools (Gazebo, RQT) ---
-# Set up VNC directory and password (using the most reliable method)
+# Set up VNC directory (password-less authentication)
 RUN mkdir -p /home/$USERNAME/.vnc && \
-    which vncpasswd && echo "vscode" | vncpasswd -f > /home/$USERNAME/.vnc/passwd || \
-    (echo "vncpasswd not found, using alternative" && \
-     echo -n "vscode" | md5sum | cut -d' ' -f1 > /home/$USERNAME/.vnc/passwd) && \
-    chmod 600 /home/$USERNAME/.vnc/passwd && \
     chown -R $USERNAME:$USERNAME /home/$USERNAME/.vnc
 
 # Configure VNC startup script
@@ -58,6 +55,12 @@ RUN echo '#!/bin/sh' > /home/$USERNAME/.vnc/xstartup && \
     echo 'exec startxfce4' >> /home/$USERNAME/.vnc/xstartup && \
     chmod +x /home/$USERNAME/.vnc/xstartup && \
     chown $USERNAME:$USERNAME /home/$USERNAME/.vnc/xstartup
+
+# Copy startup and icon fix scripts
+COPY start_desktop.sh fix_icons.sh /home/$USERNAME/
+RUN dos2unix /home/$USERNAME/start_desktop.sh /home/$USERNAME/fix_icons.sh && \
+    chmod +x /home/$USERNAME/start_desktop.sh /home/$USERNAME/fix_icons.sh && \
+    chown $USERNAME:$USERNAME /home/$USERNAME/start_desktop.sh /home/$USERNAME/fix_icons.sh
 
 # Switch to the non-root user
 USER $USERNAME
@@ -70,4 +73,4 @@ RUN sudo usermod --append --groups video $USERNAME && \
 # The command to run when the container starts.
 # This starts the VNC server for the graphical desktop. The VS Code server
 # will be started automatically by the Hugging Face Dev Mode infrastructure.
-CMD ["bash", "-c", "vncserver :1 -geometry 1600x900 -depth 24 -rfbauth /home/ubuntu/.vnc/passwd && websockify --web=/usr/share/novnc/ 6080 localhost:5901"]
+CMD ["./start_desktop.sh"]

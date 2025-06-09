@@ -14,7 +14,7 @@
       "label": "Gradio App"
     }
   },
-  "postCreateCommand": "chmod +x start_desktop.sh fix_icons.sh && pip install -r requirements.txt",
+  "postCreateCommand": "chmod +x start_desktop.sh fix_icons.sh && dos2unix start_desktop.sh fix_icons.sh && pip install -r requirements.txt",
   "remoteUser": "ubuntu",
   "customizations": {
     "vscode": {
