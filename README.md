@@ -1,5 +1,5 @@
 ---
-title: ROS 2 Humble Desktop
+title: ROS 2 Humble Desktop Environment
 emoji: 🤖
 colorFrom: blue
 colorTo: green
