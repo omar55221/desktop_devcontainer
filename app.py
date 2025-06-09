@@ -55,7 +55,8 @@ with gr.Blocks(title="ROS 2 Desktop Environment") as demo:
     
     start_btn.click(start_desktop, outputs=output)
     check_btn.click(check_services, outputs=output)
-      gr.Markdown("""
+    
+    gr.Markdown("""
     ## 🎯 Access Methods:
     - **Desktop**: Click the "6080" port tab above to access the noVNC desktop
     - **VNC Direct**: Port 5901 for VNC clients

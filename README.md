@@ -1,11 +1,10 @@
 ---
-title: ROS 2 Humble Desktop
+title: ROS 2 Humble Desktop Environment
 emoji: 🤖
 colorFrom: blue
 colorTo: green
-sdk: gradio
-sdk_version: 4.44.0
-app_file: app.py
+sdk: docker
+app_port: 7860
 pinned: false
 license: mit
 ---
