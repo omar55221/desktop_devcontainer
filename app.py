@@ -22,8 +22,8 @@ def check_services():
         web_check = subprocess.run(['pgrep', '-f', 'websockify'], capture_output=True)
         
         status = []
-        status.append(f"VNC Server: {'✅ Running' if vnc_check.returncode == 0 else '❌ Stopped'}")
-        status.append(f"Web Interface: {'✅ Running' if web_check.returncode == 0 else '❌ Stopped'}")
+        status.append(f"VNC Server: {'✅ Running' if vnc_check.returncode == 0 else '❌ Stopped'}")        
+        status.append(f"Web Interface: {'✅ Running' if web_check.returncode == 0 else '❌ Stopped'}")     
         status.append(f"Desktop Access: Navigate to the 6080 port tab above")
         
         return "\n".join(status)
@@ -31,13 +31,9 @@ def check_services():
         return f"Error checking services: {str(e)}"
 
 def auto_start_desktop():
-    """Automatically start desktop services on app launch"""
-    try:
-        time.sleep(2)  # Wait a bit for the app to initialize
-        subprocess.run(['chmod', '+x', './start_desktop.sh'], capture_output=True)
-        subprocess.run(['./start_desktop.sh'], capture_output=True, timeout=60)
-    except Exception as e:
-        print(f"Auto-start failed: {e}")
+    """Auto-start desktop environment in background"""
+    time.sleep(5)
+    start_desktop()
 
 # Auto-start desktop in background
 threading.Thread(target=auto_start_desktop, daemon=True).start()
