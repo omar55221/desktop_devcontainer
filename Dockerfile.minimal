@@ -1,0 +1,50 @@
+# Minimal ROS 2 Environment for Hugging Face Spaces
+FROM osrf/ros:humble-desktop-jammy
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Create user with UID 1000 as required by Hugging Face Spaces
+RUN useradd -m -u 1000 user
+
+# Install only essential packages
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    python3 python3-pip \
+    xfce4-minimal tigervnc-standalone-server novnc websockify \
+    ros-humble-rviz2 ros-humble-gazebo-ros-pkgs \
+    && apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# Set up VNC
+RUN mkdir -p /home/user/.vnc && \
+    echo "vscode" | vncpasswd -f > /home/user/.vnc/passwd && \
+    chmod 600 /home/user/.vnc/passwd && \
+    echo '#!/bin/sh\nexec startxfce4' > /home/user/.vnc/xstartup && \
+    chmod +x /home/user/.vnc/xstartup && \
+    chown -R user:user /home/user/.vnc
+
+# Give user sudo privileges
+RUN echo "user ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/user
+
+# Switch to user
+USER user
+WORKDIR /app
+
+# Copy requirements and install Python dependencies
+COPY --chown=user ./requirements.txt requirements.txt
+RUN pip install --no-cache-dir --upgrade -r requirements.txt
+
+# Copy application files
+COPY --chown=user . /app
+
+# Make scripts executable
+RUN chmod +x start_desktop.sh || true
+
+# Add ROS setup to bashrc
+RUN echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
+
+# Expose port
+EXPOSE 7860
+
+# Start the Gradio application
+CMD ["python3", "app.py"]
