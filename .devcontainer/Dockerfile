@@ -15,11 +15,29 @@ RUN apt-get update && \
     apt-get install -y sudo && \
     echo "$USERNAME ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME && \
     chmod 0440 /etc/sudoers.d/$USERNAME
-    RUN apt-get update && \
+
+# Install ROS 2 packages and additional tools
+RUN apt-get update && \
     apt-get install -y \
-    ros-humble-gazebo-ros-pkgs \
-    ros-humble-gazebo-ros2-control \
+    ros-humble-gazebo* \
+    ros-humble-rqt* \
+    ros-humble-moveit* \
+    ros-humble-joint-state-publisher* \
+    ros-humble-launch-param-builder \
+    ros-humble-parameter-traits \
     ros-humble-ros2-control \
+    ros-humble-ros2-controllers \
+    ros-humble-controller-interface \
+    ros-humble-joint-trajectory-controller \
+    ros-humble-joint-state-broadcaster \
+    ros-humble-gripper-controllers \
+    ros-humble-xacro \
+    ros-humble-realtime-tools \
+    ros-humble-hardware-interface \
+    ros-humble-control-toolbox \
+    ros-humble-filters \
+    ros-humble-ros2bag \
+    ros-humble-plotjuggler* \
     jstest-gtk \
     evtest && \
     rm -rf /var/lib/apt/lists/*
