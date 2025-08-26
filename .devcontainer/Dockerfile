@@ -17,31 +17,11 @@ RUN apt-get update && \
     chmod 0440 /etc/sudoers.d/$USERNAME
     RUN apt-get update && \
     apt-get install -y \
-    ros-humble-twist-mux \
-    ros-humble-navigation2 \
-    ros-humble-nav2-bringup \
     ros-humble-gazebo-ros-pkgs \
     ros-humble-gazebo-ros2-control \
     ros-humble-ros2-control \
-    ros-humble-ros2-controllers \
-    ros-humble-joint-state-publisher-gui \
-    ros-humble-slam-toolbox \
-    ros-humble-controller-manager \
-    ros-humble-xacro \
-    ros-humble-gazebo-ros \
-    ros-humble-rplidar-ros \
-    ros-humble-usb-cam \
-    ros-humble-image-transport-plugins \
-    ros-humble-diff-drive-controller \
-    ros-humble-teleop-twist-keyboard \
-    ros-humble-teleop-twist-joy \
-    ros-humble-rqt-image-view \
-    ros-humble-rosbridge-suite \
-    ros-humble-turtlebot3 \
-    joystick \
     jstest-gtk \
-    evtest \
-    ros-humble-joint-state-broadcaster && \
+    evtest && \
     rm -rf /var/lib/apt/lists/*
 
 # Switch from root to user
@@ -72,9 +52,7 @@ RUN sudo apt update && sudo apt upgrade -y && \
 RUN rosdep update && \
     echo "source /opt/ros/${ROS_DISTRO}/setup.bash" >> ~/.bashrc
 
-################################
-## ADD ANY CUSTOM SETUP BELOW ##
-################################
+
 
 # Fix locale setup
 RUN sudo apt-get update && \
@@ -88,9 +66,9 @@ ENV LANG=en_US.UTF-8
 ENV LANGUAGE=en_US.UTF-8
 ENV LC_ALL=en_US.UTF-8
 
-# Install Ubuntu Desktop (GNOME), XFCE, and XFCE goodies
+# Install XFCE and XFCE goodies only
 RUN sudo apt-get update && \
-    sudo apt-get install -y ubuntu-desktop xfce4 xfce4-goodies
+    sudo apt-get install -y xfce4 xfce4-goodies
 
 # Install VNC server and noVNC
 RUN sudo apt-get install -y tigervnc-standalone-server tigervnc-common novnc websockify
